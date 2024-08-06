@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
     res.send("Hello world! Successfully connected to the database!");
 });
 
-
 //post the details of a student 
 app.post('/postPersonalDetails', async (req, res) => {
     try {
@@ -85,7 +84,7 @@ app.post('/postPersonalDetails', async (req, res) => {
     }
 });
 
-//get all the data 
+//get all the data with the get method
 
 app.get('/getPersonalData', async (req, res) => {
     try {
