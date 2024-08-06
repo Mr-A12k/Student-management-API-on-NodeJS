@@ -1,23 +1,41 @@
 const mongoose = require("mongoose");
-const educationSchema =new mongoose.Schema({
-    course:{
-        type:String,
-        required:true       
-    },
-    year:{
-        type:Number,
-        required:true
-    },
-    rollno:{
-        type:String,
-        required:true
-    },
-    department:{
-        type:String,
-        required:true
-    },
-},
-    { _id: false });
+const PersonalDetails = require("./personalDetails");
 
-const Student = mongoose.Schema('Student',educationSchema);
-module.exports(Student);
+const studentSchema = mongoose.Schema({
+    currectCourse: { type: String },
+    eduHistory: {
+        tenth: {
+            yearOfpassing: { type: Number },
+            instituteName: { type: String },
+            marks: { type: Number }
+        },
+        twelth: {
+            yearOfpassing: { type: Number },
+            instituteName: { type: String },
+            marks: { type: Number }
+        },
+        diploma: {
+            yearOfpassing: { type: Number },
+            instituteName: { type: String },
+            marks: { type: Number }
+        },
+        degree: {
+            yearOfpassing: { type: Number },
+            instituteName: { type: String },
+            marks: { type: Number }
+        },
+        masterDegree: {
+            yearOfpassing: { type: Number },
+            instituteName: { type: String },
+            marks: { type: Number }
+        },
+        personal:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'PersonalDetails'
+        }
+    }
+}, 
+);
+
+const Student = mongoose.model('Student', studentSchema);
+module.exports = Student;
