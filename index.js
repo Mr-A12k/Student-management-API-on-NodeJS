@@ -15,14 +15,20 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const PersonalDetails = require('./models/personalDetails');
 const Student = require('./models/studentDetails');
 const Work = require('./models/workDetails');
+const { authenticate, isUser, isAdmin } = require('./middleware/auth');
+const authRoutesRef = require('./routes/authRoute');
 
 const app = express();
 const port = 9090;
 
 app.use(express.json());
+app.use('./authRoute', authRoutesRef);
+
+dotenv.config();
 
 // Test the connection to server
 app.get('/', (req, res) => {
@@ -30,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 //post the details of a student 
-app.post('/postPersonalDetails', async (req, res) => {
+app.post('/postPersonalDetails', authenticate, async (req, res) => {
     try {
         const { name, fatherName, dateOfBirth, mobile, email, role, student, work } = req.body;
 
@@ -86,7 +92,7 @@ app.post('/postPersonalDetails', async (req, res) => {
 
 //get all the data with the get method
 
-app.get('/getPersonalData', async (req, res) => {
+app.get('/getPersonalData', authenticate, async (req, res) => {
     try {
         const PersonalData = await PersonalDetails.find().populate('student').populate('work');
 
@@ -100,7 +106,7 @@ app.get('/getPersonalData', async (req, res) => {
 });
 
 //get the details with an id
-app.get('/personalDataWithID/:id', async (req, res) => {
+app.get('/personalDataWithID/:id', authenticate, async (req, res) => {
     const { id } = req.params;
     try {
         const personData = await PersonalDetails.findById(id).populate('student').populate('work');
@@ -119,7 +125,7 @@ app.get('/personalDataWithID/:id', async (req, res) => {
 
 //get educational details with the person id
 
-app.get('/getStudentWithPersonId/:id', async (req, res) => {
+app.get('/getStudentWithPersonId/:id', authenticate, async (req, res) => {
     const { id } = req.params;
     try {
         const personalData = await PersonalDetails.findById(id).populate('student');
@@ -136,7 +142,7 @@ app.get('/getStudentWithPersonId/:id', async (req, res) => {
 });
 
 //get work with person id
-app.get('/getWorkWithPersonalID/:id', async (req, res) => {
+app.get('/getWorkWithPersonalID/:id', authenticate, async (req, res) => {
     const { id } = req.params;
     try {
         const personalData = await PersonalDetails.findById(id).populate('work');
@@ -153,7 +159,7 @@ app.get('/getWorkWithPersonalID/:id', async (req, res) => {
 
 
 //edit the only personal details with person id
-app.put('/editPersonalDetails/:id', async (req, res) => {
+app.put('/editPersonalDetails/:id', authenticate, isUser, async (req, res) => {
     const { id } = req.params;
     const { name, fatherName, dateOfBirth, mobile, email, role } = req.body;
 
@@ -172,36 +178,36 @@ app.put('/editPersonalDetails/:id', async (req, res) => {
 
 
 //edit only the education details with the person id
-app.put('/editEduDetails/:id', async (req, res) => {
+app.put('/editEduDetails/:id', authenticate, async (req, res) => {
     const { id } = req.params;
     const { student } = req.body;
-    try{ 
-    const updatedEducation = await PersonalDetails.findByIdAndUpdate(id,
-        {$set:{'student.educationHistory':student.educationHistory}},
-        {new:true,runValidators:true}).populate('student');
-    return res.status(200).json({message:"Successfully edited!",student});
+    try {
+        const updatedEducation = await PersonalDetails.findByIdAndUpdate(id,
+            { $set: { 'student.educationHistory': student.educationHistory } },
+            { new: true, runValidators: true }).populate('student');
+        return res.status(200).json({ message: "Successfully edited!", student });
     }
-    catch(error){
-    console.error("Can't update the education details",error);
-    return res.status(404).json({message:"Can't update the education details !"});
+    catch (error) {
+        console.error("Can't update the education details", error);
+        return res.status(404).json({ message: "Can't update the education details !" });
     }
 });
 
 //deletre educationdetails with a student id
-app.delete('/deleteEducation/:id', async(req,res)=>{
-    const {id}= req.params;
-    const {student}= req.body;
+app.delete('/deleteEducation/:id', authenticate, isAdmin, async (req, res) => {
+    const { id } = req.params;
+    const { student } = req.body;
     try {
         const deleteEducation = await Student.findByIdAndDelete(id).populate(student);
-        if(!deleteEducation){
-        res.status(404).json({message:"No data found on this id"});     
+        if (!deleteEducation) {
+            res.status(404).json({ message: "No data found on this id" });
         }
-        res.status(200).json({messasage:"Successfully Deleted!"});
+        res.status(200).json({ messasage: "Successfully Deleted!" });
     } catch (error) {
-        console.log("Error delete the student Details",error);
-        return res.status(404).json({message:"Error!"});
+        console.log("Error delete the student Details", error);
+        return res.status(404).json({ message: "Error!" });
     }
-})
+});
 
 
 mongoose.connect("mongodb://localhost:27017/Students", { useNewUrlParser: true, useUnifiedTopology: true })
