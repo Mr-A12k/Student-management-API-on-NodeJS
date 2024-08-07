@@ -29,12 +29,12 @@ const personalDataSchema = mongoose.Schema({
         enum: ['student', 'working'],
         default: 'student'
     },
-    student: [
+    student: 
         {
             type: mongoose.Schema.ObjectId,
             ref: 'Student'
         }
-    ],
+    ,
     work: [
         {
             type: mongoose.Schema.ObjectId,

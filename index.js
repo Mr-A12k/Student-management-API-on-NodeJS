@@ -65,7 +65,7 @@ app.post('/postPersonalDetails', async (req, res) => {
             email,
             mobile,
             role,
-            student: savedStudent ? [savedStudent._id] : [],
+            student: savedStudent ? [savedStudent._id] : {},
             work: savedWork ? [savedWork._id] : []
         });
 
@@ -163,7 +163,7 @@ app.put('/editPersonalDetails/:id', async (req, res) => {
         if (!updatedPerson) {
             return res.status(404).json({ message: "Personal details not found!" });
         }
-        return res.status(200).json({ message: "Successfully updated!", personalDetails: updatedPerson })
+        return res.status(200).json({ message: "Successfully updated!", PersonalDetails: updatedPerson })
     } catch (error) {
         console.error("Error while updating the person details!", error);
         res.status(500).json({ message: "Can't update the details in the database!" });
@@ -175,7 +175,7 @@ app.put('/editPersonalDetails/:id', async (req, res) => {
 app.put('/editEduDetails/:id', async (req, res) => {
     const { id } = req.params;
     const { student } = req.body;
-    try {
+    try{ 
     const updatedEducation = await PersonalDetails.findByIdAndUpdate(id,
         {$set:{'student.educationHistory':student.educationHistory}},
         {new:true,runValidators:true}).populate('student');
@@ -186,6 +186,22 @@ app.put('/editEduDetails/:id', async (req, res) => {
     return res.status(404).json({message:"Can't update the education details !"});
     }
 });
+
+//deletre educationdetails with a student id
+app.delete('/deleteEducation/:id', async(req,res)=>{
+    const {id}= req.params;
+    const {student}= req.body;
+    try {
+        const deleteEducation = await Student.findByIdAndDelete(id).populate(student);
+        if(!deleteEducation){
+        res.status(404).json({message:"No data found on this id"});     
+        }
+        res.status(200).json({messasage:"Successfully Deleted!"});
+    } catch (error) {
+        console.log("Error delete the student Details",error);
+        return res.status(404).json({message:"Error!"});
+    }
+})
 
 
 mongoose.connect("mongodb://localhost:27017/Students", { useNewUrlParser: true, useUnifiedTopology: true })
