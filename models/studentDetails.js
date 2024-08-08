@@ -29,12 +29,12 @@ const studentSchema = mongoose.Schema({
             instituteName: { type: String },
             marks: { type: Number }
         },
-        personal:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'PersonalDetails'
+        personal: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PersonalDetails'
         }
     }
-}, 
+},
 );
 
 const Student = mongoose.model('Student', studentSchema);

@@ -13,6 +13,56 @@
 // Edit personal details
 // No delete and no add personal details
 
+//sample post input
+
+// {
+//     "name": "Hi bro",
+//     "fatherName": "Bro",
+//     "dateOfBirth": "13-06-2002",
+//     "mobile": 1234559990,
+//     "email": "kabii1@mailcom",
+//     "role": "student",
+//     "student": {
+//       "currectCourse": "Computer Science",
+//       "eduHistory": {
+//         "tenth": 
+//           {
+//             "yearOfpassing": 2017,
+//             "instituteName": "XYZ School",
+//             "marks": 89
+//           }
+//         ,
+//         "twelth": 
+//           {
+//             "yearOfpassing": 2019,
+//             "instituteName": "ABC school",
+//             "marks": 90
+//           }
+//         ,
+//         "diploma": 
+//           {
+//             "yearOfpassing": 2021,
+//             "instituteName": "Tech University",
+//             "marks": 92
+//           }
+//         ,
+//         "degree": 
+//           {
+//             "yearOfpassing": 2025,
+//             "instituteName": "Tech University",
+//             "marks": 88
+//           }
+//         ,
+//         "masterDegree": []
+//       }
+//     },
+//     "work": {
+//       "company": "KabixII Corp",
+//       "position": "Software Engineer",
+//       "experience": 0
+//     }
+//   }
+
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -21,18 +71,34 @@ const Student = require('./models/studentDetails');
 const Work = require('./models/workDetails');
 const { authenticate, isUser, isAdmin } = require('./middleware/auth');
 const authRoutesRef = require('./routes/authRoute');
+const User = require('./models/userDetails');
 
 const app = express();
 const port = 9090;
 
 app.use(express.json());
-app.use('./authRoute', authRoutesRef);
+app.use('/api', authRoutesRef);
+//app.use('/api',authRoute);
 
 dotenv.config();
 
 // Test the connection to server
 app.get('/', (req, res) => {
     res.send("Hello world! Successfully connected to the database!");
+});
+
+//create user
+
+app.post('/createUser',async(req,res)=>{
+    const {username,password,userrole}=req.body;
+    try {
+        const newUser= new User({username,password,userrole});
+        await newUser.save();
+        return res.status(200).json({message:"New user succesfully created!"});
+    } catch (error) {
+        console.error("Error while creatoing new user!",error);
+        return res.status(404).json({message:"Error create new user"});
+    }
 });
 
 //post the details of a student 
@@ -220,4 +286,3 @@ mongoose.connect("mongodb://localhost:27017/Students", { useNewUrlParser: true, 
     .catch(() => {
         console.log("Connection error!");
     });
-
