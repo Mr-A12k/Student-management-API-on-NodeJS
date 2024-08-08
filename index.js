@@ -15,54 +15,6 @@
 
 //sample post input
 
-// {
-//     "name": "Hi bro",
-//     "fatherName": "Bro",
-//     "dateOfBirth": "13-06-2002",
-//     "mobile": 1234559990,
-//     "email": "kabii1@mailcom",
-//     "role": "student",
-//     "student": {
-//       "currectCourse": "Computer Science",
-//       "eduHistory": {
-//         "tenth": 
-//           {
-//             "yearOfpassing": 2017,
-//             "instituteName": "XYZ School",
-//             "marks": 89
-//           }
-//         ,
-//         "twelth": 
-//           {
-//             "yearOfpassing": 2019,
-//             "instituteName": "ABC school",
-//             "marks": 90
-//           }
-//         ,
-//         "diploma": 
-//           {
-//             "yearOfpassing": 2021,
-//             "instituteName": "Tech University",
-//             "marks": 92
-//           }
-//         ,
-//         "degree": 
-//           {
-//             "yearOfpassing": 2025,
-//             "instituteName": "Tech University",
-//             "marks": 88
-//           }
-//         ,
-//         "masterDegree": []
-//       }
-//     },
-//     "work": {
-//       "company": "KabixII Corp",
-//       "position": "Software Engineer",
-//       "experience": 0
-//     }
-//   }
-
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');

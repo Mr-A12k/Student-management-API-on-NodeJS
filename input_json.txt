@@ -1,0 +1,126 @@
+
+
+{
+//     "name": "Hi bro",
+//     "fatherName": "Bro",
+//     "dateOfBirth": "13-06-2002",
+//     "mobile": 1234559990,
+//     "email": "kabii1@mailcom",
+//     "role": "student",
+//     "student": {
+//       "currectCourse": "Computer Science",
+//       "eduHistory": {
+//         "tenth": 
+//           {
+//             "yearOfpassing": 2017,
+//             "instituteName": "XYZ School",
+//             "marks": 89
+//           }
+//         ,
+//         "twelth": 
+//           {
+//             "yearOfpassing": 2019,
+//             "instituteName": "ABC school",
+//             "marks": 90
+//           }
+//         ,
+//         "diploma": 
+//           {
+//             "yearOfpassing": 2021,
+//             "instituteName": "Tech University",
+//             "marks": 92
+//           }
+//         ,
+//         "degree": 
+//           {
+//             "yearOfpassing": 2025,
+//             "instituteName": "Tech University",
+//             "marks": 88
+//           }
+//         ,
+//         "masterDegree": []
+//       }
+//     },
+//     "work": {
+//       "company": "KabixII Corp",
+//       "position": "Software Engineer",
+//       "experience": 0
+//     }
+//   }
+
+//post user details with authentication
+
+{
+  "name": "Kabil",
+  "fatherName": "Arun",
+  "dateOfBirth": "13-06-2002",
+  "mobile": 9876543211,
+  "email": "kabiX448@gmail.com",
+  "userrole": "user",                     //if user role is admin change 
+  "role":"student",
+  "student": {
+    "currectCourse": "Computer Science",
+    "eduHistory": {
+      "tenth": {
+        "yearOfpassing": 2017,
+        "instituteName": "ACD School",
+        "marks": 85
+      },
+      "twelth": {
+        "yearOfpassing": 2019,
+        "instituteName": "DKJ Senior School",
+        "marks": 88
+      },
+      "diploma": {
+        "yearOfpassing": 2021,
+        "instituteName": "KABIX Institute",
+        "marks": 90
+      },
+      "degree": {
+        "yearOfpassing": 2025,
+        "instituteName": "KABIX University",
+        "marks": 92
+      },
+      "masterDegree": {
+        "yearOfpassing": 2027,
+        "instituteName": "KABIX University",
+        "marks": 93
+      }
+    }
+  },
+  "work": [
+    {
+      "company": "KabixTech",
+      "position": "Intern",
+      "experience": 1
+    }
+  ]
+}
+
+
+//login input 
+
+{
+  "username": "arun",
+  "password": "arun123"
+}
+
+//login output
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YjQ4Nzg0YmIyZmQ3OTYyZGMxYmQ5MiIsImlhdCI6MTcyMzEwNzIzOSwiZXhwIjoxNzIzMTA3ODM5fQ.u1pceUinQoXfgS25aaMOaayl0dq8uxLnyYd-iHGJPtQ"
+}
+
+//input to create user
+
+{
+  "username":"arun",
+  "password":"arun123",
+  "userrole":"user"      //if the user is an admin replace "user" with "admin"
+}
+
+//if successfully loged input
+
+{
+  "message": "New user succesfully created!"
+}
